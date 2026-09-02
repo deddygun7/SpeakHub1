@@ -11,8 +11,11 @@
     "db:push": "drizzle-kit push:pg --out ./drizzle"
   },
   "dependencies": {
+    "bcryptjs": "2.4.3",
+    "cookie": "0.5.0",
     "dotenv": "17.3.1",
     "drizzle-orm": "0.45.2",
+    "jsonwebtoken": "9.0.2",
     "next": "16.2.6",
     "pg": "8.20.0",
     "react": "19.2.6",
@@ -20,7 +23,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.1.17",
-    "@types-node": "22.19.15",
+    "@types/node": "22.19.15",
     "@types/pg": "8.18.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",

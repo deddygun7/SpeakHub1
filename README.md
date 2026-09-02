@@ -1,24 +1,19 @@
-# SpeakHub1 — локальная настройка и запуск
+# SpeakHub1 — локальная настройка, миграции и деплой на Render
 
-Краткая инструкция по запуску проекта локально.
+Краткая инструкция по запуску проекта локально и развертыванию на Render.
 
-Требования
-- Node.js (рекомендуется LTS)
-- PostgreSQL (локально или удалённо)
-
+Локально
 1) Установите зависимости
 
 ```bash
 npm install
 ```
 
-2) Создайте файл .env
-
-Скопируйте .env.example в .env и при необходимости отредактируйте DATABASE_URL:
+2) Скопируйте .env.example и установите DATABASE_URL
 
 ```bash
 cp .env.example .env
-# затем откройте .env и измените значения при необходимости
+# Отредактируйте .env (DATABASE_URL)
 ```
 
 3) Запустите dev-сервер
@@ -27,15 +22,24 @@ cp .env.example .env
 npm run dev
 ```
 
-4) Миграции (Drizzle)
+Миграции (drizzle-kit)
+- Сгенерировать миграцию: `npm run db:generate`
+- Применить миграции: `npm run db:push`
 
-В проекте используется drizzle-kit для миграций. Примеры команд зависят от конфигурации drizzle-kit и вашей среды. Если нужна помощь с командами миграций — напишите, настрою скрипты и инструкции.
+Перед применением миграций убедитесь, что в .env указана рабочая DATABASE_URL.
 
-Примечания
-- Конфигурация Drizzle: добавлен файл `drizzle.config.ts`, который читает `DATABASE_URL` из окружения и имеет безопасный fallback.
-- PostCSS: используется связка `tailwindcss` + `autoprefixer`. Я добавил `autoprefixer` в devDependencies.
+Деплой на Render
+1) Создайте новый Web Service на Render и укажите репозиторий.
+2) Установите переменные окружения в Render -> ENV: `DATABASE_URL` (postgres://user:pass@host:5432/db)
+3) Build command: `npm install && npm run build`
+4) Start command: `npm run start`
+5) Перед первым запуском выполните миграции вручную как One-Off команду на Render:
+   - `npm run db:push`
 
-Если хотите, могу также:
-- удалить `drizzle.config.json` и оставить только TypeScript-конфиг, или настроить drizzle-kit так, чтобы он использовал `drizzle.config.ts`;
-- добавить скрипты для миграций (например `migrate:dev`, `migrate:push`);
-- зафиксировать версии пакетов/обновить устаревшие зависимости.
+Node версия
+- Установите в Render Node 18 или 20 (рекомендую LTS).
+
+Drizzle config
+- Для совместимости добавлен `drizzle.config.js` (CommonJS), который читает `DATABASE_URL` из окружения. Это работает в Render и с большинством CLI-инструментов.
+
+Если нужно — могу автоматизировать выполнение миграций на deploy (через deploy hook/one-off job) или добавить инструкции для GitHub Actions.

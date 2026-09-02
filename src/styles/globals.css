@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global animations and theme tweaks for Founder visuals */
+
+:root{
+  --founder-gradient-start: #ffdd57;
+  --founder-gradient-end: #ff7a18;
+}
+
+/* Soft glow used around founder messages */
+.founder-glow {
+  box-shadow: 0 6px 28px rgba(255,170,50,0.12), 0 2px 8px rgba(255,140,30,0.08);
+}
+
+/* Animated gradient border */
+@keyframes founder-border {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.founder-border-gradient {
+  background: linear-gradient(90deg, var(--founder-gradient-start), var(--founder-gradient-end), #ffd27a);
+  background-size: 200% 200%;
+  animation: founder-border 4s ease infinite;
+}
+
+/* Subtle shimmer for badge */
+@keyframes shimmer {
+  0% { transform: translateX(-100%) skewX(-10deg); opacity: .0 }
+  50% { transform: translateX(0%) skewX(-10deg); opacity: .5 }
+  100% { transform: translateX(100%) skewX(-10deg); opacity: .0 }
+}
+
+.founder-badge {
+  position: relative;
+  overflow: hidden;
+}
+
+.founder-badge::after{
+  content: '';
+  position: absolute;
+  top:0; left:-50%; width:200%; height:100%;
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.18), rgba(255,255,255,0.06));
+  transform: skewX(-10deg);
+  animation: shimmer 2.4s linear infinite;
+  pointer-events: none;
+}
+
+/* Sparkle */
+@keyframes sparkle {
+  0% { opacity:0; transform: scale(0.6) translateY(4px) }
+  50% { opacity:1; transform: scale(1) translateY(0) }
+  100% { opacity:0; transform: scale(0.6) translateY(-4px) }
+}
+
+.sparkle {
+  animation: sparkle 2.6s ease-in-out infinite;
+}
+
+/* Popover styling */
+.founder-popover {
+  background: rgba(18,18,18,0.92);
+  border: 1px solid rgba(255,200,80,0.06);
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.5rem;
+  min-width: 200px;
+  color: #f7f3ea;
+}
